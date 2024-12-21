@@ -182,8 +182,6 @@ func (g *Goban) GetImage() **image.RGBA {
 			jPosition := startSizePx + (j)*rectangleSizePx
 			iPosition := startSizePx + (i)*rectangleSizePx
 
-			println("i:", iPosition, "j:", jPosition)
-
 			if dot == black {
 				DrawCircle(
 					drawableImage,
