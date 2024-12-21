@@ -79,3 +79,21 @@ func (g *Goban) PlaceWhite(x, y int) error {
 	g.dots[y][x] = white
 	return nil
 }
+
+func (g *Goban) String() string {
+	var result string
+	for _, row := range g.dots {
+		for _, dot := range row {
+			switch dot {
+			case empty:
+				result += "·"
+			case black:
+				result += "⚫"
+			case white:
+				result += "⚪️"
+			}
+		}
+		result += "\n"
+	}
+	return result
+}
