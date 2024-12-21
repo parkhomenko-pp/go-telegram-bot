@@ -1,3 +1,3 @@
-module go-game-telegram-bot
+module go-telegram-bot
 
 go 1.23.4
