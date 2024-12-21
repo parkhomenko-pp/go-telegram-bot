@@ -27,6 +27,7 @@ const (
 	startSizePx     = 60
 	rectangleSizePx = 151
 	stoneRadPx      = 55
+	lastStoneRadPx  = 14
 )
 
 func newGoban(size uint8) *Goban {
@@ -188,7 +189,7 @@ func (g *Goban) GetImage() **image.RGBA {
 					DrawCircle(
 						drawableImage,
 						jPosition, iPosition,
-						stoneRadPx-40,
+						lastStoneRadPx,
 						g.theme.lastBlackStoneFill,
 					)
 
@@ -213,7 +214,7 @@ func (g *Goban) GetImage() **image.RGBA {
 					DrawCircle(
 						drawableImage,
 						jPosition, iPosition,
-						stoneRadPx-40,
+						lastStoneRadPx,
 						g.theme.lastWhiteStoneFill,
 					)
 				}
