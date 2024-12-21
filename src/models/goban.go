@@ -12,11 +12,12 @@ import (
 )
 
 type Goban struct {
-	size  uint8
-	dots  [][]uint8
-	lastI uint8
-	lastJ uint8
-	theme GobanTheme
+	size      uint8
+	dots      [][]uint8
+	lastColor uint8
+	lastI     uint8
+	lastJ     uint8
+	theme     GobanTheme
 }
 
 const (
@@ -35,7 +36,7 @@ func newGoban(size uint8) *Goban {
 	for i := range dots {
 		dots[i] = make([]uint8, size)
 	}
-	return &Goban{size: size, dots: dots, theme: *NewLightGobanTheme()}
+	return &Goban{size: size, dots: dots, theme: *NewLightGobanTheme(), lastColor: 0}
 }
 
 func NewGoban7() *Goban {
@@ -79,6 +80,7 @@ func (g *Goban) place(s, i int, color uint8) error {
 	g.dots[i][s] = color
 	g.lastI = uint8(i)
 	g.lastJ = uint8(s)
+	g.lastColor = color
 	return nil
 }
 
@@ -88,6 +90,9 @@ func (g *Goban) PlaceBlack(s, i int) error {
 	}
 	if g.dots[i][s] != empty {
 		return errors.New("already placed")
+	}
+	if g.lastColor == black {
+		return errors.New("cannot place two black")
 	}
 
 	return g.place(s, i, black)
@@ -99,6 +104,9 @@ func (g *Goban) PlaceWhite(s, i int) error {
 	}
 	if g.dots[i][s] != empty {
 		return errors.New("already placed")
+	}
+	if g.lastColor == white {
+		return errors.New("cannot place two white")
 	}
 
 	return g.place(s, i, white)
