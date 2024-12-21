@@ -16,6 +16,9 @@ type GobanTheme struct {
 	blackStoneStroke color.Color
 	whiteStoneFill   color.Color
 	whiteStoneStroke color.Color
+
+	lastBlackStoneFill color.Color
+	lastWhiteStoneFill color.Color
 }
 
 func (t *GobanTheme) GetFilePathName() string {
@@ -36,6 +39,9 @@ func NewLightGobanTheme() *GobanTheme {
 		blackStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 		whiteStoneFill:   color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+
+		lastBlackStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastWhiteStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 	}
 }
 
@@ -46,5 +52,8 @@ func NewDarkGobanTheme() *GobanTheme {
 		blackStoneStroke: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 		whiteStoneFill:   color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
+
+		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 	}
 }

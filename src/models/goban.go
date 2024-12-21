@@ -14,6 +14,8 @@ import (
 type Goban struct {
 	size  uint8
 	dots  [][]uint8
+	lastI uint8
+	lastJ uint8
 	theme GobanTheme
 }
 
@@ -72,6 +74,13 @@ func (g *Goban) Print() {
 	}
 }
 
+func (g *Goban) place(s, i int, color uint8) error {
+	g.dots[i][s] = color
+	g.lastI = uint8(i)
+	g.lastJ = uint8(s)
+	return nil
+}
+
 func (g *Goban) PlaceBlack(s, i int) error {
 	if s < 0 || s >= len(g.dots) || i < 0 || i >= len(g.dots) {
 		return errors.New("out of range")
@@ -79,8 +88,8 @@ func (g *Goban) PlaceBlack(s, i int) error {
 	if g.dots[i][s] != empty {
 		return errors.New("already placed")
 	}
-	g.dots[i][s] = black
-	return nil
+
+	return g.place(s, i, black)
 }
 
 func (g *Goban) PlaceWhite(s, i int) error {
@@ -91,8 +100,7 @@ func (g *Goban) PlaceWhite(s, i int) error {
 		return errors.New("already placed")
 	}
 
-	g.dots[i][s] = white
-	return nil
+	return g.place(s, i, white)
 }
 
 func (g *Goban) String() string {
@@ -176,6 +184,15 @@ func (g *Goban) GetImage() **image.RGBA {
 					stoneRadPx-2,
 					g.theme.blackStoneFill,
 				)
+				if i == int(g.lastI) && j == int(g.lastJ) {
+					DrawCircle(
+						drawableImage,
+						jPosition, iPosition,
+						stoneRadPx-40,
+						g.theme.lastBlackStoneFill,
+					)
+
+				}
 				continue
 			}
 
@@ -192,6 +209,14 @@ func (g *Goban) GetImage() **image.RGBA {
 					stoneRadPx-2,
 					g.theme.whiteStoneFill,
 				)
+				if i == int(g.lastI) && j == int(g.lastJ) {
+					DrawCircle(
+						drawableImage,
+						jPosition, iPosition,
+						stoneRadPx-40,
+						g.theme.lastWhiteStoneFill,
+					)
+				}
 				continue
 			}
 		}
