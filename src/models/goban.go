@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"math"
 	"os"
 	"strconv"
 )
@@ -115,8 +116,20 @@ func (g *Goban) String() string {
 func DrawCircle(img draw.Image, cx, cy, r int, col color.Color) {
 	for y := -r; y <= r; y++ {
 		for x := -r; x <= r; x++ {
-			if x*x+y*y <= r*r {
-				img.Set(cx+x, cy+y, col)
+			dist := math.Sqrt(float64(x*x + y*y))
+			if dist <= float64(r) {
+				alpha := 1.0
+				if dist > float64(r)-1 {
+					alpha = float64(r) - dist
+				}
+				originalColor := img.At(cx+x, cy+y)
+				r1, g1, b1, a1 := originalColor.RGBA()
+				r2, g2, b2, a2 := col.RGBA()
+				newR := uint8((float64(r1)*(1-alpha) + float64(r2)*alpha) / 256)
+				newG := uint8((float64(g1)*(1-alpha) + float64(g2)*alpha) / 256)
+				newB := uint8((float64(b1)*(1-alpha) + float64(b2)*alpha) / 256)
+				newA := uint8((float64(a1)*(1-alpha) + float64(a2)*alpha) / 256)
+				img.Set(cx+x, cy+y, color.RGBA{newR, newG, newB, newA})
 			}
 		}
 	}
