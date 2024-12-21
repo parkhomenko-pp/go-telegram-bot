@@ -25,8 +25,8 @@ const (
 	black = 1
 	white = 2
 
-	startSizePx     = 60
-	rectangleSizePx = 151
+	startSizePx     = 62
+	rectangleSizePx = 146
 	stoneRadPx      = 55
 	lastStoneRadPx  = 14
 )
@@ -153,8 +153,10 @@ func DrawCircle(img draw.Image, cx, cy, r int, col color.Color) {
 }
 
 func (g *Goban) loadBackground() (image.Image, error) {
+	filePathName, err := g.theme.GetFilePathName()
+
 	sourceImageFile, err := os.Open(
-		"media/gobans/" + strconv.Itoa(int(g.size)) + "-" + g.theme.GetFilePathName() + ".png",
+		"media/gobans/" + strconv.Itoa(int(g.size)) + "-" + filePathName + ".png",
 	)
 	if err != nil {
 		println(err.Error())
@@ -177,8 +179,10 @@ func (g *Goban) GetImage() **image.RGBA {
 				continue
 			}
 
-			jPosition := startSizePx + (j-1)*rectangleSizePx
-			iPosition := startSizePx + (i-1)*rectangleSizePx
+			jPosition := startSizePx + (j)*rectangleSizePx
+			iPosition := startSizePx + (i)*rectangleSizePx
+
+			println("i:", iPosition, "j:", jPosition)
 
 			if dot == black {
 				DrawCircle(
