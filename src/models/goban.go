@@ -14,11 +14,9 @@ const (
 
 func newGoban(size int) *Goban {
 	dots := make([][]uint8, size)
-
 	for i := range dots {
 		dots[i] = make([]uint8, size)
 	}
-
 	return &Goban{dots: dots}
 }
 
@@ -58,11 +56,9 @@ func (g *Goban) PlaceBlack(x, y int) error {
 	if x < 0 || x >= len(g.dots) || y < 0 || y >= len(g.dots) {
 		return errors.New("out of range")
 	}
-
 	if g.dots[y][x] != empty {
 		return errors.New("already placed")
 	}
-
 	g.dots[y][x] = black
 	return nil
 }
@@ -71,7 +67,6 @@ func (g *Goban) PlaceWhite(x, y int) error {
 	if x < 0 || x >= len(g.dots) || y < 0 || y >= len(g.dots) {
 		return errors.New("out of range")
 	}
-
 	if g.dots[y][x] != empty {
 		return errors.New("already placed")
 	}
