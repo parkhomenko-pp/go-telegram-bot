@@ -63,7 +63,6 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 }
 
 func (g *Goban) Print() {
-	println("Size:", g.size)
 	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
 	for i, row := range g.dots {
 		print(g.size-uint8(i), " ")
