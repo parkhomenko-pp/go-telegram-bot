@@ -42,13 +42,20 @@ func TestNewDarkGobanTheme(t *testing.T) {
 }
 
 func TestGetFilePathName(t *testing.T) {
-	lightTheme := NewLightGobanTheme()
-	if lightTheme.GetFilePathName() != "light" {
-		t.Errorf("expected 'light', got %v", lightTheme.GetFilePathName())
+	tests := []struct {
+		theme    *GobanTheme
+		expected string
+	}{
+		{NewLightGobanTheme(), "light"},
+		{NewDarkGobanTheme(), "dark"},
+		{NewWoodLightGobanTheme(), "wood-light"},
+		{NewWoodDarkGobanTheme(), "wood-dark"},
 	}
 
-	darkTheme := NewDarkGobanTheme()
-	if darkTheme.GetFilePathName() != "dark" {
-		t.Errorf("expected 'dark', got %v", darkTheme.GetFilePathName())
+	for _, tt := range tests {
+		result, err := tt.theme.GetFilePathName()
+		if err != nil || result != tt.expected {
+			t.Errorf("expected '%v', got '%v' (err: %v)", tt.expected, result, err)
+		}
 	}
 }

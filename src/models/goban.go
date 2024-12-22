@@ -76,40 +76,41 @@ func (g *Goban) Print() {
 	}
 }
 
-func (g *Goban) place(s, i int, color uint8) error {
+func (g *Goban) place(s, i int, color uint8) {
 	g.dots[i][s] = color
 	g.lastI = uint8(i)
 	g.lastJ = uint8(s)
 	g.lastColor = color
+}
+
+func (g *Goban) checkPoint(s, i, c int) error {
+	if s < 0 || s >= len(g.dots) || i < 0 || i >= len(g.dots) {
+		return errors.New("out of range")
+	}
+	if g.dots[i][s] != empty {
+		return errors.New("already placed")
+	}
+	if g.lastColor == uint8(c) {
+		return errors.New("cannot place two black")
+	}
+
 	return nil
 }
 
 func (g *Goban) PlaceBlack(s, i int) error {
-	if s < 0 || s >= len(g.dots) || i < 0 || i >= len(g.dots) {
-		return errors.New("out of range")
+	if err := g.checkPoint(s, i, black); err != nil {
+		return err
 	}
-	if g.dots[i][s] != empty {
-		return errors.New("already placed")
-	}
-	if g.lastColor == black {
-		return errors.New("cannot place two black")
-	}
-
-	return g.place(s, i, black)
+	g.place(s, i, black)
+	return nil
 }
 
 func (g *Goban) PlaceWhite(s, i int) error {
-	if s < 0 || s >= len(g.dots) || i < 0 || i >= len(g.dots) {
-		return errors.New("out of range")
+	if err := g.checkPoint(s, i, white); err != nil {
+		return err
 	}
-	if g.dots[i][s] != empty {
-		return errors.New("already placed")
-	}
-	if g.lastColor == white {
-		return errors.New("cannot place two white")
-	}
-
-	return g.place(s, i, white)
+	g.place(s, i, white)
+	return nil
 }
 
 func (g *Goban) String() string {
