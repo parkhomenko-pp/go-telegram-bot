@@ -73,7 +73,8 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 }
 
 func (g *Goban) Print() {
-	println("  A B C D E F G H I J K L M N O P Q R S T"[0:(g.size+1)*2], "\tSurrounded")
+	print("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
+	println("\tCount: ")
 	for i, row := range g.dots {
 		print(g.size-uint8(i), " ")
 		for _, dot := range row {
@@ -87,11 +88,19 @@ func (g *Goban) Print() {
 			}
 		}
 		print(g.size - uint8(i))
-		if i == 0 {
-			println("\tBlack: ", g.CountBlack())
-		} else if i == 1 {
-			println("\tWhite: ", g.CountWhite())
-		} else {
+
+		switch i {
+		case 0:
+			println("\tKomi:\t", strconv.FormatFloat(float64(g.komi), 'f', 1, 32))
+		case 2:
+			println("\tBlack territory: ", g.CountBlack())
+		case 3:
+			println("\tWhite territory: ", g.CountWhite())
+		case 5:
+			println("\tWhite captured: ", g.CountWhite())
+		case 6:
+			println("\tBlack captured: ", g.CountWhite())
+		default:
 			println()
 		}
 	}
