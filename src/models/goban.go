@@ -64,19 +64,22 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 
 func (g *Goban) Print() {
 	println("Size:", g.size)
-	for _, row := range g.dots {
+	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
+	for i, row := range g.dots {
+		print(g.size-uint8(i), " ")
 		for _, dot := range row {
 			switch dot {
 			case empty:
-				print("·")
+				print("· ")
 			case black:
-				print("⚫")
+				print("⚫ ")
 			case white:
-				print("⚪️")
+				print("⚪ ")
 			}
 		}
-		println()
+		println(g.size - uint8(i))
 	}
+	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
 }
 
 func (g *Goban) place(j, i uint8, color uint8) {
