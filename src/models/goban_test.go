@@ -22,17 +22,17 @@ func TestNewGoban(t *testing.T) {
 func TestPlaceBlack(t *testing.T) {
 	goban := NewGoban7()
 
-	err := goban.PlaceBlack(3, 3)
+	err := goban.PlaceBlack('D', 4)
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
 
-	err = goban.PlaceBlack(3, 3)
+	err = goban.PlaceBlack('D', 4)
 	if err == nil {
 		t.Errorf("expected error, got nil")
 	}
 
-	err = goban.PlaceBlack(-1, 3)
+	err = goban.PlaceBlack('A', 8)
 	if err == nil {
 		t.Errorf("expected error, got nil")
 	}
@@ -41,17 +41,17 @@ func TestPlaceBlack(t *testing.T) {
 func TestPlaceWhite(t *testing.T) {
 	goban := NewGoban7()
 
-	err := goban.PlaceWhite(3, 3)
+	err := goban.PlaceWhite('D', 4)
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
 
-	err = goban.PlaceWhite(3, 3)
+	err = goban.PlaceWhite('D', 4)
 	if err == nil {
 		t.Errorf("expected error, got nil")
 	}
 
-	err = goban.PlaceWhite(7, 7)
+	err = goban.PlaceWhite('H', 8)
 	if err == nil {
 		t.Errorf("expected error, got nil")
 	}
@@ -59,8 +59,8 @@ func TestPlaceWhite(t *testing.T) {
 
 func TestPrint(t *testing.T) {
 	goban := NewGoban7()
-	goban.PlaceBlack(3, 3)
-	goban.PlaceWhite(4, 4)
+	goban.PlaceBlack('D', 4)
+	goban.PlaceWhite('E', 3)
 
 	expectedOutput := "·······\n·······\n·······\n···⚫···\n····⚪️··\n·······\n·······\n"
 	if goban.String() != expectedOutput {
@@ -75,5 +75,32 @@ func TestChangeTheme(t *testing.T) {
 
 	if goban.theme != *newTheme {
 		t.Errorf("expected theme %v, got %v", newTheme, goban.theme)
+	}
+}
+
+func TestLetterToNumber(t *testing.T) {
+	goban := NewGoban7()
+
+	tests := []struct {
+		letter   rune
+		expected uint8
+		hasError bool
+	}{
+		{'A', 0, false},
+		{'B', 1, false},
+		{'G', 6, false},
+		{'H', 0, true}, // Out of range for 7x7 goban
+		{'a', 0, false},
+		{'1', 0, true}, // Not a letter
+	}
+
+	for _, test := range tests {
+		result, err := goban.letterToNumber(test.letter)
+		if (err != nil) != test.hasError {
+			t.Errorf("letterToNumber(%c) error = %v, expected error = %v", test.letter, err, test.hasError)
+		}
+		if result != test.expected {
+			t.Errorf("letterToNumber(%c) = %d, expected %d", test.letter, result, test.expected)
+		}
 	}
 }

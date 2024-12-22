@@ -9,15 +9,18 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"unicode"
 )
 
 type Goban struct {
-	size      uint8
-	dots      [][]uint8
-	lastColor uint8
-	lastI     uint8
-	lastJ     uint8
-	theme     GobanTheme
+	size uint8
+
+	dots           [][]uint8
+	lastStoneColor uint8
+	lastI          uint8
+	lastJ          uint8
+
+	theme GobanTheme
 }
 
 const (
@@ -36,7 +39,7 @@ func newGoban(size uint8) *Goban {
 	for i := range dots {
 		dots[i] = make([]uint8, size)
 	}
-	return &Goban{size: size, dots: dots, theme: *NewLightGobanTheme(), lastColor: 0}
+	return &Goban{size: size, dots: dots, theme: *NewLightGobanTheme(), lastStoneColor: 0}
 }
 
 func NewGoban7() *Goban {
@@ -76,40 +79,72 @@ func (g *Goban) Print() {
 	}
 }
 
-func (g *Goban) place(s, i int, color uint8) {
-	g.dots[i][s] = color
-	g.lastI = uint8(i)
-	g.lastJ = uint8(s)
-	g.lastColor = color
+func (g *Goban) place(j, i uint8, color uint8) {
+	g.dots[j][i] = color
+	g.lastI = j
+	g.lastJ = i
+	g.lastStoneColor = color
 }
 
-func (g *Goban) checkPoint(s, i, c int) error {
-	if s < 0 || s >= len(g.dots) || i < 0 || i >= len(g.dots) {
+func (g *Goban) checkPoint(j, i, c uint8) error {
+	if j < 0 || j >= uint8(len(g.dots)) || i < 0 || i >= uint8(len(g.dots)) {
 		return errors.New("out of range")
 	}
-	if g.dots[i][s] != empty {
+	if g.dots[i][j] != empty {
 		return errors.New("already placed")
 	}
-	if g.lastColor == uint8(c) {
+	if g.lastStoneColor == uint8(c) {
 		return errors.New("cannot place two black")
 	}
 
 	return nil
 }
 
-func (g *Goban) PlaceBlack(s, i int) error {
-	if err := g.checkPoint(s, i, black); err != nil {
+func (g *Goban) letterToNumber(letter rune) (uint8, error) {
+	if !unicode.IsLetter(letter) {
+		return 0, errors.New("not a letter")
+	}
+
+	index := uint8(unicode.ToUpper(letter)) - 'A'
+
+	if index >= g.size {
+		return 0, errors.New("out of range")
+	}
+
+	return index, nil
+}
+
+func (g *Goban) PlaceBlack(s rune, i uint8) error {
+	i--
+
+	j, err := g.letterToNumber(s)
+	if err != nil {
 		return err
 	}
-	g.place(s, i, black)
+
+	i = g.size - i - 1
+
+	if err := g.checkPoint(j, i, black); err != nil {
+		return err
+	}
+	g.place(i, j, black)
 	return nil
 }
 
-func (g *Goban) PlaceWhite(s, i int) error {
-	if err := g.checkPoint(s, i, white); err != nil {
+func (g *Goban) PlaceWhite(s rune, i uint8) error {
+	i--
+
+	j, err := g.letterToNumber(s)
+	if err != nil {
 		return err
 	}
-	g.place(s, i, white)
+
+	i = g.size - i - 1
+
+	if err := g.checkPoint(j, i, white); err != nil {
+		return err
+	}
+	g.place(i, j, white)
 	return nil
 }
 
