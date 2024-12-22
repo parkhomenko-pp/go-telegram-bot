@@ -14,6 +14,7 @@ import (
 
 type Goban struct {
 	size uint8
+	komi float32
 
 	dots           [][]uint8
 	lastStoneColor uint8
@@ -34,28 +35,37 @@ const (
 	lastStoneRadPx  = 14
 )
 
-func newGoban(size uint8) *Goban {
+func newGoban(size uint8, komi float32) *Goban {
 	dots := make([][]uint8, size)
 	for i := range dots {
 		dots[i] = make([]uint8, size)
 	}
-	return &Goban{size: size, dots: dots, theme: *NewLightGobanTheme(), lastStoneColor: 0}
+	return &Goban{
+		size:           size,
+		dots:           dots,
+		theme:          *NewLightGobanTheme(),
+		lastStoneColor: 0,
+		komi:           komi,
+	}
 }
 
 func NewGoban7() *Goban {
-	return newGoban(7)
+	return newGoban(7, 4.5)
 }
 
 func NewGoban9() *Goban {
-	return newGoban(9)
+	return newGoban(9, 5.5)
+}
+func NewGoban11() *Goban {
+	return newGoban(11, 5.5)
 }
 
 func NewGoban13() *Goban {
-	return newGoban(13)
+	return newGoban(13, 6.5)
 }
 
 func NewGoban19() *Goban {
-	return newGoban(19)
+	return newGoban(19, 6.5)
 }
 
 func (g *Goban) ChangeTheme(theme *GobanTheme) {
