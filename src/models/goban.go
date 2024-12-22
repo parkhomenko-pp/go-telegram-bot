@@ -73,7 +73,7 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 }
 
 func (g *Goban) Print() {
-	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
+	println("  A B C D E F G H I J K L M N O P Q R S T"[0:(g.size+1)*2], "\tSurrounded")
 	for i, row := range g.dots {
 		print(g.size-uint8(i), " ")
 		for _, dot := range row {
@@ -86,7 +86,14 @@ func (g *Goban) Print() {
 				print("⚪ ")
 			}
 		}
-		println(g.size - uint8(i))
+		print(g.size - uint8(i))
+		if i == 0 {
+			println("\tBlack: ", g.CountBlack())
+		} else if i == 1 {
+			println("\tWhite: ", g.CountWhite())
+		} else {
+			println()
+		}
 	}
 	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
 }
@@ -282,4 +289,16 @@ func (g *Goban) GetImage() **image.RGBA {
 	}
 
 	return &drawableImage
+}
+
+func (g *Goban) countSurroundedPoints(color uint8) int {
+	return 0
+}
+
+func (g *Goban) CountBlack() int {
+	return g.countSurroundedPoints(black)
+}
+
+func (g *Goban) CountWhite() int {
+	return g.countSurroundedPoints(white)
 }

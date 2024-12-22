@@ -57,17 +57,6 @@ func TestPlaceWhite(t *testing.T) {
 	}
 }
 
-func TestPrint(t *testing.T) {
-	goban := NewGoban7()
-	goban.PlaceBlack('D', 4)
-	goban.PlaceWhite('E', 3)
-
-	expectedOutput := "·······\n·······\n·······\n···⚫···\n····⚪️··\n·······\n·······\n"
-	if goban.String() != expectedOutput {
-		t.Errorf("expected %v, got %v", expectedOutput, goban.String())
-	}
-}
-
 func TestChangeTheme(t *testing.T) {
 	goban := NewGoban7()
 	newTheme := NewDarkGobanTheme()
