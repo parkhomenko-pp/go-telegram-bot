@@ -115,6 +115,9 @@ func (g *Goban) place(j, i uint8, color uint8) {
 }
 
 func (g *Goban) checkPoint(j, i, c uint8) error {
+	if g.lastStoneColor == empty && g.isEmpty() {
+		return errors.New("first move must be black")
+	}
 	if j < 0 || j >= uint8(len(g.dots)) || i < 0 || i >= uint8(len(g.dots)) {
 		return errors.New("out of range")
 	}
@@ -126,6 +129,18 @@ func (g *Goban) checkPoint(j, i, c uint8) error {
 	}
 
 	return nil
+}
+
+func (g *Goban) isEmpty() bool {
+	for _, row := range g.dots {
+		for _, col := range row {
+			if col != empty {
+				return false
+			}
+		}
+	}
+
+	return true
 }
 
 func (g *Goban) letterToNumber(letter rune) (uint8, error) {
