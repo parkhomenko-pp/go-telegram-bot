@@ -50,6 +50,8 @@ func TestGetFilePathName(t *testing.T) {
 		{NewDarkGobanTheme(), "dark"},
 		{NewWoodLightGobanTheme(), "wood-light"},
 		{NewWoodDarkGobanTheme(), "wood-dark"},
+		{NewTgLightGobanTheme(), "tg-light"},
+		{NewTgDarkGobanTheme(), "tg-dark"},
 	}
 
 	for _, tt := range tests {

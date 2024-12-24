@@ -11,6 +11,9 @@ const (
 
 	woodLight = 2
 	woodDark  = 3
+
+	thLight = 4
+	tgDark  = 5
 )
 
 type GobanTheme struct {
@@ -35,6 +38,10 @@ func (t *GobanTheme) GetFilePathName() (string, error) {
 		return "wood-light", nil
 	case woodDark:
 		return "wood-dark", nil
+	case thLight:
+		return "tg-light", nil
+	case tgDark:
+		return "tg-dark", nil
 	default:
 		return "", errors.New("invalid theme")
 	}
@@ -93,5 +100,33 @@ func NewWoodDarkGobanTheme() *GobanTheme {
 
 		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+	}
+}
+
+func NewTgLightGobanTheme() *GobanTheme {
+	return &GobanTheme{
+		id: thLight,
+
+		blackStoneFill:   color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+		blackStoneStroke: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+		whiteStoneFill:   color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
+		whiteStoneStroke: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+
+		lastBlackStoneFill: color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
+		lastWhiteStoneFill: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+	}
+}
+
+func NewTgDarkGobanTheme() *GobanTheme {
+	return &GobanTheme{
+		id: tgDark,
+
+		blackStoneFill:   color.RGBA{R: 0x0B, G: 0x14, B: 0x1F, A: 0xFF},
+		blackStoneStroke: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+		whiteStoneFill:   color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+		whiteStoneStroke: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+
+		lastBlackStoneFill: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+		lastWhiteStoneFill: color.RGBA{R: 0x18, G: 0x21, B: 0x2D, A: 0xFF},
 	}
 }
