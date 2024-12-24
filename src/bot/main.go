@@ -1,11 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -32,9 +34,31 @@ func main() {
 
 	updates := bot.GetUpdatesChan(u)
 
+	// Connect to SQLite database
+	db, err := sql.Open("sqlite3", "./db/data.db")
+	if err != nil {
+		// Copy empty.db to data.db if there's an error opening data.db
+		input, err := os.ReadFile("./db/empty.db")
+		if err != nil {
+			log.Fatalf("Error reading empty.db file: %v", err)
+		}
+
+		err = os.WriteFile("./db/data.db", input, 0644)
+		if err != nil {
+			log.Fatalf("Error writing data.db file: %v", err)
+		}
+
+		// Try opening data.db again
+		db, err = sql.Open("sqlite3", "./db/data.db")
+		if err != nil {
+			log.Fatalf("Error opening data.db file: %v", err)
+		}
+	}
+	defer db.Close()
+
 	for update := range updates {
 		if update.Message != nil { // If we got a message
-			// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
 			msg.ReplyToMessageID = update.Message.MessageID
