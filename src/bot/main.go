@@ -11,13 +11,61 @@ import (
 )
 
 func main() {
+	loadEnv()
+	apiKey := getAPIKey()
+	db := connectToDatabase()
+	defer db.Close()
+	bot := initializeBot(apiKey)
+
+	startBot(bot)
+}
+
+func loadEnv() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
+}
+
+func getAPIKey() string {
 	apiKey := os.Getenv("TELEGRAM_API_KEY")
 	if apiKey == "" {
 		log.Fatalf("TELEGRAM_API_KEY not set in .env file")
+	}
+	return apiKey
+}
+
+func connectToDatabase() *sql.DB {
+	db, err := sql.Open("sqlite3", "./db/data.db")
+	if err != nil {
+		println("data-notfound")
+		copyEmptyDatabase()
+		db, err = sql.Open("sqlite3", "./db/data.db")
+		if err != nil {
+			log.Fatalf("Error opening data.db file: %v", err)
+		}
+	}
+	return db
+}
+
+func copyEmptyDatabase() {
+	input, err := os.ReadFile("./db/empty.db")
+	if err != nil {
+		log.Fatalf("Error reading empty.db file: %v", err)
+	}
+
+	err = os.WriteFile("./db/data.db", input, 0644)
+	if err != nil {
+		log.Fatalf("Error writing data.db file: %v", err)
+	}
+
+	log.Println("Successfully copied empty.db to data.db")
+}
+
+func initializeBot(apiKey string) *tgbotapi.BotAPI {
+	debug := os.Getenv("DEBUG")
+	if debug == "" {
+		log.Fatalf("DEBUG not set in .env file")
 	}
 
 	bot, err := tgbotapi.NewBotAPI(apiKey)
@@ -25,36 +73,20 @@ func main() {
 		log.Panic(err)
 	}
 
-	bot.Debug = true
+	if debug == "TRUE" {
+		bot.Debug = true
+	}
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
+	return bot
+}
+
+func startBot(bot *tgbotapi.BotAPI) {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
 	updates := bot.GetUpdatesChan(u)
-
-	// Connect to SQLite database
-	db, err := sql.Open("sqlite3", "./db/data.db")
-	if err != nil {
-		// Copy empty.db to data.db if there's an error opening data.db
-		input, err := os.ReadFile("./db/empty.db")
-		if err != nil {
-			log.Fatalf("Error reading empty.db file: %v", err)
-		}
-
-		err = os.WriteFile("./db/data.db", input, 0644)
-		if err != nil {
-			log.Fatalf("Error writing data.db file: %v", err)
-		}
-
-		// Try opening data.db again
-		db, err = sql.Open("sqlite3", "./db/data.db")
-		if err != nil {
-			log.Fatalf("Error opening data.db file: %v", err)
-		}
-	}
-	defer db.Close()
 
 	for update := range updates {
 		if update.Message != nil { // If we got a message
