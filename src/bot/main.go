@@ -12,12 +12,11 @@ import (
 
 func main() {
 	loadEnv()
-	apiKey := getAPIKey()
+
 	db := connectToDatabase()
 	defer db.Close()
-	bot := initializeBot(apiKey)
 
-	startBot(bot)
+	startBot()
 }
 
 func loadEnv() {
@@ -25,14 +24,6 @@ func loadEnv() {
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-}
-
-func getAPIKey() string {
-	apiKey := os.Getenv("TELEGRAM_API_KEY")
-	if apiKey == "" {
-		log.Fatalf("TELEGRAM_API_KEY not set in .env file")
-	}
-	return apiKey
 }
 
 func connectToDatabase() *sql.DB {
@@ -82,7 +73,14 @@ func initializeBot(apiKey string) *tgbotapi.BotAPI {
 	return bot
 }
 
-func startBot(bot *tgbotapi.BotAPI) {
+func startBot() {
+	apiKey := os.Getenv("TELEGRAM_API_KEY")
+	if apiKey == "" {
+		log.Fatalf("TELEGRAM_API_KEY not set in .env file")
+	}
+
+	bot := initializeBot(apiKey)
+
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
