@@ -2,7 +2,10 @@
 
 [![Go](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml?query=branch:master)
 
-<img src="preview/icon.png" alt="Icon" width="150" style="vertical-align: top;">
+<img src="preview/icon.png" alt="Icon" width="150" style="vertical-align: top; float: left; margin-right: 10px;">
+
+This is a Go Telegram bot project. It includes a bot that interacts with users on Telegram and a console game. Below you will find instructions on how to run the project and the current roadmap for future development.
+
 
 ## Run project
 
@@ -16,6 +19,8 @@ go run src/console/main.go # start console game
 
 ## Roadmap
 - Goban
+    - [x] Themes support
+    - [x] Place stones on board
     - [ ] Stones without breath determine
     - [ ] Stones without breath remove from goban
     - [ ] Captured areas count
