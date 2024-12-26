@@ -13,3 +13,14 @@ go run src/bot/main.go # start telegram bot
 ```sh
 go run src/console/main.go # start console game
 ```
+
+## Roadmap
+- Goban
+    - [ ] Stones without breath determine
+    - [ ] Stones without breath remove from goban
+    - [ ] Captured areas count
+    - [ ] Captured stones count
+- Console
+    - [ ] Full game support
+- Bot
+    - TODO
