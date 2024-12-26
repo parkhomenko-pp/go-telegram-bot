@@ -1,4 +1,4 @@
-# Go Telegram bot
+# EntoGo
 
 [![Go](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml?query=branch:master)
 
