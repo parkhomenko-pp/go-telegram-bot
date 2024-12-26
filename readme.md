@@ -4,7 +4,7 @@
 
 <img src="preview/icon.png" align="right" width=150 height=150/>
 
-This is a Go Telegram bot project. It includes a bot that interacts with users on Telegram and a console game. Below you will find instructions on how to run the project and the current roadmap for future development.
+This is a Go game project that allows two players to play Go via a Telegram bot. It also includes support for playing the game from the console. Below you will find instructions on how to run the project and the current roadmap for future development.
 <br><br><br>
 
 ## Run project
