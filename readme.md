@@ -2,10 +2,10 @@
 
 [![Go](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/parkhomenko-pp/go-telegram-bot/actions/workflows/go.yml?query=branch:master)
 
-<img src="preview/icon.png" align="right" width=120 height=120/>
+<img src="preview/icon.png" align="right" width=150 height=150/>
 
 This is a Go Telegram bot project. It includes a bot that interacts with users on Telegram and a console game. Below you will find instructions on how to run the project and the current roadmap for future development.
-<br><br>
+<br><br><br>
 
 ## Run project
 
