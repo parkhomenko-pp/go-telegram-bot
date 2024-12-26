@@ -19,6 +19,7 @@ go run src/console/main.go # start console game
 
 ## Roadmap
 - Goban
+    - [x] Draw image
     - [x] Themes support
     - [x] Place stones on board
     - [ ] Stones without breath determine
