@@ -61,3 +61,12 @@ func TestGetFilePathName(t *testing.T) {
 		}
 	}
 }
+
+func TestGetFilePathNameDefault(t *testing.T) {
+	theme := &GobanTheme{id: 255}
+	expected := ""
+	result, err := theme.GetFilePathName()
+	if err == nil || result != expected {
+		t.Errorf("expected '%v', got '%v' (err: %v)", expected, result, err)
+	}
+}
