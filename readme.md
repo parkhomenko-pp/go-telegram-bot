@@ -18,6 +18,12 @@ go run src/bot/main.go # start telegram bot
 go run src/console/main.go # start console game
 ```
 
+## Run tests
+```sh
+go test -v -coverprofile=coverage.out ./...         # with coverage
+go tool cover -html=coverage.out -o coverage.html   # generate coverage report
+```
+
 ## Roadmap
 - Goban
     - [x] Draw image
