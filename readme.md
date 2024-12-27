@@ -8,8 +8,7 @@
 
 This is a Go game project that allows two players to play Go via a Telegram bot. It also includes support for playing the game from the console. Below you will find instructions on how to run the project and the current roadmap for future development.
 
-[Telegram Bot](https://t.me/ento_go_bot)
-<br><br>
+<br><br><br>
 
 ## Run project
 
