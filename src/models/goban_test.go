@@ -93,3 +93,63 @@ func TestLetterToNumber(t *testing.T) {
 		}
 	}
 }
+
+func TestNewGoban9(t *testing.T) {
+	goban := NewGoban9()
+	if goban.size != 9 {
+		t.Errorf("expected size 9, got %d", goban.size)
+	}
+	if len(goban.dots) != 9 {
+		t.Errorf("expected 9 rows, got %d", len(goban.dots))
+	}
+	for _, row := range goban.dots {
+		if len(row) != 9 {
+			t.Errorf("expected 9 columns, got %d", len(row))
+		}
+	}
+}
+
+func TestNewGoban11(t *testing.T) {
+	goban := NewGoban11()
+	if goban.size != 11 {
+		t.Errorf("expected size 11, got %d", goban.size)
+	}
+	if len(goban.dots) != 11 {
+		t.Errorf("expected 11 rows, got %d", len(goban.dots))
+	}
+	for _, row := range goban.dots {
+		if len(row) != 11 {
+			t.Errorf("expected 11 columns, got %d", len(row))
+		}
+	}
+}
+
+func TestNewGoban13(t *testing.T) {
+	goban := NewGoban13()
+	if goban.size != 13 {
+		t.Errorf("expected size 13, got %d", goban.size)
+	}
+	if len(goban.dots) != 13 {
+		t.Errorf("expected 13 rows, got %d", len(goban.dots))
+	}
+	for _, row := range goban.dots {
+		if len(row) != 13 {
+			t.Errorf("expected 13 columns, got %d", len(row))
+		}
+	}
+}
+
+func TestNewGoban19(t *testing.T) {
+	goban := NewGoban19()
+	if goban.size != 19 {
+		t.Errorf("expected size 19, got %d", goban.size)
+	}
+	if len(goban.dots) != 19 {
+		t.Errorf("expected 19 rows, got %d", len(goban.dots))
+	}
+	for _, row := range goban.dots {
+		if len(row) != 19 {
+			t.Errorf("expected 19 columns, got %d", len(row))
+		}
+	}
+}
