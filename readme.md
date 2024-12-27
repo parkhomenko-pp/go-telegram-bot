@@ -11,11 +11,11 @@ This is a Go game project that allows two players to play Go via a Telegram bot.
 ## Run project
 
 ```sh
-go run src/bot/main.go # start telegram bot
+go run src/bot/main.go      # start telegram bot
 ```
 
 ```sh
-go run src/console/main.go # start console game
+go run src/console/main.go  # start console game
 ```
 
 ## Run tests
