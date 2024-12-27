@@ -32,8 +32,8 @@ go tool cover -html=coverage.out -o coverage.html   # generate coverage report
     - [x] Draw image
     - [x] Themes support
     - [x] Place stones on board
-    - [ ] Stones without breath determine
-    - [ ] Stones without breath remove from goban
+    - [ ] Stones without dame determine
+    - [ ] Stones without dame remove from goban
     - [ ] Captured areas count
     - [ ] Captured stones count
 - Console
