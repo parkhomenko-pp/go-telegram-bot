@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"log"
 	"math"
 	"os"
 	"strconv"
@@ -13,6 +14,8 @@ import (
 )
 
 type Goban struct {
+	theme GobanTheme
+
 	size uint8
 	komi float32
 
@@ -21,7 +24,8 @@ type Goban struct {
 	lastI          uint8
 	lastJ          uint8
 
-	theme GobanTheme
+	whiteCaptured uint16
+	blackCaptured uint16
 }
 
 const (
@@ -73,7 +77,8 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 }
 
 func (g *Goban) Print() {
-	print("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
+	horizontalMarks := "  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2]
+	print(horizontalMarks)
 	println("\tCount: ")
 	for i, row := range g.dots {
 		print(g.size-uint8(i), " ")
@@ -97,14 +102,14 @@ func (g *Goban) Print() {
 		case 3:
 			println("\tWhite territory: ", g.CountWhite())
 		case 5:
-			println("\tWhite captured: ", g.CountWhite())
+			println("\tWhite captured: ", g.whiteCaptured)
 		case 6:
-			println("\tBlack captured: ", g.CountWhite())
+			println("\tBlack captured: ", g.blackCaptured)
 		default:
 			println()
 		}
 	}
-	println("  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2])
+	println(horizontalMarks)
 }
 
 func (g *Goban) place(j, i uint8, color uint8) {
@@ -124,9 +129,12 @@ func (g *Goban) checkPoint(j, i, c uint8) error {
 	if g.dots[i][j] != empty {
 		return errors.New("already placed")
 	}
-	if g.lastStoneColor == uint8(c) {
+	if g.lastStoneColor == c {
 		return errors.New("cannot place two black")
 	}
+
+	// TODO: check is point have 1 or more breath
+	// 		 exception: surrounded by other color
 
 	return nil
 }
@@ -225,7 +233,7 @@ func DrawCircle(img draw.Image, cx, cy, r int, col color.Color) {
 				newG := uint8((float64(g1)*(1-alpha) + float64(g2)*alpha) / 256)
 				newB := uint8((float64(b1)*(1-alpha) + float64(b2)*alpha) / 256)
 				newA := uint8((float64(a1)*(1-alpha) + float64(a2)*alpha) / 256)
-				img.Set(cx+x, cy+y, color.RGBA{newR, newG, newB, newA})
+				img.Set(cx+x, cy+y, color.RGBA{R: newR, G: newG, B: newB, A: newA})
 			}
 		}
 	}
@@ -241,7 +249,12 @@ func (g *Goban) loadBackground() (image.Image, error) {
 		println(err.Error())
 	}
 
-	defer sourceImageFile.Close()
+	defer func(sourceImageFile *os.File) {
+		err := sourceImageFile.Close()
+		if err != nil {
+			log.Fatal("cannot close goban background file")
+		}
+	}(sourceImageFile)
 
 	return png.Decode(sourceImageFile)
 }
