@@ -1,6 +1,9 @@
 package models
 
 import (
+	"encoding/json"
+	"os"
+	"slices"
 	"testing"
 )
 
@@ -150,6 +153,68 @@ func TestNewGoban19(t *testing.T) {
 	for _, row := range goban.dots {
 		if len(row) != 19 {
 			t.Errorf("expected 19 columns, got %d", len(row))
+		}
+	}
+}
+
+func TestRemoveStonesWithoutBreathes(t *testing.T) {
+	jsonTestFile, err := os.ReadFile("./test_data/goban_test_remove_stones_without_breathes.json")
+	if err != nil {
+		panic(err)
+	}
+
+	type testStruct struct {
+		Dots                  [][]uint8
+		ExpectedDots          [][]uint8 `json:"expected_dots"`
+		ExpectedWhiteCaptured uint16    `json:"expected_white_captured"`
+		ExpectedBlackCaptured uint16    `json:"expected_black_captured"`
+	}
+	tests := map[string]testStruct{}
+
+	err = json.Unmarshal(jsonTestFile, &tests)
+	if err != nil {
+		t.Errorf("cannot parse jsonTestFile: %s", err)
+	}
+
+	goban := NewGoban7()
+	for testName, test := range tests {
+		// clear previous data
+		goban.whiteCaptured = 0
+		goban.blackCaptured = 0
+		goban.dots = test.Dots
+
+		// run logic
+		goban.removeStonesWithoutBreathes()
+
+		// check result
+		for i := 0; i < int(goban.size); i++ {
+			if !slices.Equal(goban.dots[i], test.ExpectedDots[i]) {
+				t.Errorf(
+					"%s: gobans [%d] is not same\nexpected:\n%v\nrecieved:\n%v\n\n",
+					testName,
+					i,
+					test.ExpectedDots,
+					goban.dots,
+				)
+			}
+		}
+
+		if test.ExpectedWhiteCaptured != goban.whiteCaptured {
+			t.Errorf(
+				"%s: goban white captured is wrong. \nexpected: %d\nrecieved: %d\n",
+				testName,
+				test.ExpectedWhiteCaptured,
+				goban.whiteCaptured,
+			)
+		}
+
+		if test.ExpectedWhiteCaptured != goban.blackCaptured {
+			t.Errorf(
+				"%s: goban black captured is wrong. \nexpected: %d\nrecieved: %d\n",
+				testName,
+				test.ExpectedWhiteCaptured,
+				goban.whiteCaptured,
+			)
 		}
 	}
 }

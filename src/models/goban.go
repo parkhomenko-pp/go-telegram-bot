@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -16,8 +17,9 @@ import (
 type Goban struct {
 	theme GobanTheme
 
-	size uint8
-	komi float32
+	size  uint8
+	komi  float32
+	count float32
 
 	dots           [][]uint8
 	lastStoneColor uint8
@@ -60,6 +62,7 @@ func NewGoban7() *Goban {
 func NewGoban9() *Goban {
 	return newGoban(9, 5.5)
 }
+
 func NewGoban11() *Goban {
 	return newGoban(11, 5.5)
 }
@@ -79,7 +82,7 @@ func (g *Goban) ChangeTheme(theme *GobanTheme) {
 func (g *Goban) Print() {
 	horizontalMarks := "  A B C D E F G H I J K L M N O P Q R S T"[0 : (g.size+1)*2]
 	print(horizontalMarks)
-	println("\tCount: ")
+	fmt.Printf("\tCount: %0.1f\n", g.count)
 	for i, row := range g.dots {
 		print(g.size-uint8(i), " ")
 		for _, dot := range row {
@@ -96,7 +99,7 @@ func (g *Goban) Print() {
 
 		switch i {
 		case 0:
-			println("\tKomi:\t", strconv.FormatFloat(float64(g.komi), 'f', 1, 32))
+			println("\tKomi: ", strconv.FormatFloat(float64(g.komi), 'f', 1, 32))
 		case 2:
 			println("\tBlack territory: ", g.CountBlack())
 		case 3:
@@ -117,6 +120,8 @@ func (g *Goban) place(j, i uint8, color uint8) {
 	g.lastI = j
 	g.lastJ = i
 	g.lastStoneColor = color
+
+	g.removeStonesWithoutBreathes()
 }
 
 func (g *Goban) checkPoint(j, i, c uint8) error {
@@ -326,6 +331,10 @@ func (g *Goban) GetImage() **image.RGBA {
 	}
 
 	return &drawableImage
+}
+
+func (g *Goban) removeStonesWithoutBreathes() {
+
 }
 
 func (g *Goban) countSurroundedPoints(color uint8) int {
