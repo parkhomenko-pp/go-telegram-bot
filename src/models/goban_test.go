@@ -157,6 +157,18 @@ func TestNewGoban19(t *testing.T) {
 	}
 }
 
+func equalSlicesOfSlices(a, b [][]uint8) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if !slices.Equal(a[i], b[i]) {
+			return false
+		}
+	}
+	return true
+}
+
 func TestRemoveStonesWithoutBreathes(t *testing.T) {
 	jsonTestFile, err := os.ReadFile("./test_data/goban_test_remove_stones_without_breathes.json")
 	if err != nil {
@@ -187,16 +199,13 @@ func TestRemoveStonesWithoutBreathes(t *testing.T) {
 		goban.removeStonesWithoutBreathes()
 
 		// check result
-		for i := 0; i < int(goban.size); i++ {
-			if !slices.Equal(goban.dots[i], test.ExpectedDots[i]) {
-				t.Errorf(
-					"%s: gobans [%d] is not same\nexpected:\n%v\nrecieved:\n%v\n\n",
-					testName,
-					i,
-					test.ExpectedDots,
-					goban.dots,
-				)
-			}
+		if !equalSlicesOfSlices(goban.dots, test.ExpectedDots) {
+			t.Errorf(
+				"%s: gobans are not the same\nexpected:\n%v\nreceived:\n%v\n\n",
+				testName,
+				test.ExpectedDots,
+				goban.dots,
+			)
 		}
 
 		if test.ExpectedWhiteCaptured != goban.whiteCaptured {
@@ -208,7 +217,7 @@ func TestRemoveStonesWithoutBreathes(t *testing.T) {
 			)
 		}
 
-		if test.ExpectedWhiteCaptured != goban.blackCaptured {
+		if test.ExpectedBlackCaptured != goban.blackCaptured {
 			t.Errorf(
 				"%s: goban black captured is wrong. \nexpected: %d\nrecieved: %d\n",
 				testName,
