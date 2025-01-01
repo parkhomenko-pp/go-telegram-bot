@@ -24,8 +24,10 @@ type GobanTheme struct {
 	whiteStoneFill   color.Color
 	whiteStoneStroke color.Color
 
-	lastBlackStoneFill color.Color
-	lastWhiteStoneFill color.Color
+	lastBlackStoneFill   color.Color
+	lastBlackStoneStroke color.Color
+	lastWhiteStoneFill   color.Color
+	lastWhiteStoneStroke color.Color
 }
 
 func (t *GobanTheme) GetFilePathName() (string, error) {
@@ -56,8 +58,10 @@ func NewLightGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 	}
 }
 
@@ -70,8 +74,10 @@ func NewDarkGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x20, G: 0x20, B: 0x24, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 	}
 }
 
@@ -84,8 +90,10 @@ func NewWoodLightGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
 	}
 }
 
@@ -98,8 +106,10 @@ func NewWoodDarkGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x2C, G: 0x2C, B: 0x33, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x20, G: 0x20, B: 0x24, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xF3, G: 0xF3, B: 0xF3, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xD1, G: 0xD1, B: 0xD6, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x4A, G: 0x30, B: 0x2C, A: 0xFF},
 	}
 }
 
@@ -112,8 +122,10 @@ func NewTgLightGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xF4, G: 0xF4, B: 0xF4, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x43, G: 0x61, B: 0x79, A: 0xFF},
 	}
 }
 
@@ -126,7 +138,9 @@ func NewTgDarkGobanTheme() *GobanTheme {
 		whiteStoneFill:   color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
 		whiteStoneStroke: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
 
-		lastBlackStoneFill: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
-		lastWhiteStoneFill: color.RGBA{R: 0x18, G: 0x21, B: 0x2D, A: 0xFF},
+		lastBlackStoneFill:   color.RGBA{R: 0x0B, G: 0x14, B: 0x1F, A: 0xFF},
+		lastBlackStoneStroke: color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+		lastWhiteStoneFill:   color.RGBA{R: 0xB1, G: 0xC3, B: 0xD5, A: 0xFF},
+		lastWhiteStoneStroke: color.RGBA{R: 0x18, G: 0x21, B: 0x2D, A: 0xFF},
 	}
 }
