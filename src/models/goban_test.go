@@ -157,7 +157,7 @@ func TestNewGoban19(t *testing.T) {
 	}
 }
 
-func equalSlicesOfSlices(a, b [][]uint8) bool {
+func isDotsEqual(a, b [][]uint8) bool {
 	if len(a) != len(b) {
 		return false
 	}
@@ -199,7 +199,7 @@ func TestRemoveStonesWithoutBreathes(t *testing.T) {
 		goban.removeStonesWithoutBreathes()
 
 		// check result
-		if !equalSlicesOfSlices(goban.dots, test.ExpectedDots) {
+		if !isDotsEqual(goban.dots, test.ExpectedDots) {
 			t.Errorf(
 				"%s: gobans are not the same\nexpected:\n%v\nreceived:\n%v\n\n",
 				testName,
